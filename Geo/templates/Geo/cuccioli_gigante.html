@@ -1,0 +1,158 @@
+{% include 'Geo/navbar.html' %} 
+{% include 'Geo/bottoni.html' %} 
+{% load static%} 
+{% block content %}
+<div style="padding-bottom: 50px;">
+<h1>Cuccioli Gigante Disponibili</h1>
+
+<form action="{% url 'search_results' %}" method="get" class="search-form">
+  <input type="text" name="q" placeholder="Cerca..." />
+  <button type="submit">Cerca</button>
+</form>
+
+<!-- Aggiungi il menu a discesa per l'ordinamento con spaziatura -->
+<div style="margin-bottom: 20px">
+  <label for="sorting-dropdown">Ordina per:</label>
+  <select id="sorting-dropdown" style="margin-left: 10px">
+    <option value="prezzo-crescente">Prezzo (crescente)</option>
+    <option value="prezzo-decrescente">Prezzo (decrescente)</option>
+    <option value="data-nascita-crescente">Data di nascita (crescente)</option>
+    <option value="data-nascita-decrescente">
+      Data di nascita (decrescente)
+    </option>
+  </select>
+</div>
+
+<!-- Aggiungi i checkbox per il filtraggio con spaziatura -->
+<div class="filter-bar" style="margin-bottom: 20px">
+  <label style="margin-right: 10px">Sesso:</label>
+  <input type="checkbox" id="filtro-maschio" name="sesso" value="maschio" />
+  <label for="filtro-maschio" style="margin-right: 10px">Maschio</label>
+  <input type="checkbox" id="filtro-femmina" name="sesso" value="femmina" />
+  <label for="filtro-femmina" style="margin-right: 10px">Femmina</label>
+
+  <label style="margin-right: 10px">Colore:</label>
+  <input type="checkbox" id="filtro-nero" name="colore" value="nero" />
+  <label for="filtro-nero" style="margin-right: 10px">Nero</label>
+  <input type="checkbox" id="filtro-sale-pepe" name="colore" value="sale_pepe"/>
+  <label for="filtro-sale-pepe" style="margin-right: 10px">Sale e Pepe</label>
+</div>
+
+<!-- Aggiungi il pulsante "Cerca" -->
+<button id="search-button" style="margin-bottom: 20px">Cerca</button>
+
+<div class="cuccioli-container">
+  {% for cucciolo in cuccioli_gigante %}
+  <div
+    class="cucciolo-box"
+    data-sesso="{{ cucciolo.sesso }}"
+    data-colore="{{ cucciolo.colore }}"
+    data-data-nascita="{{ cucciolo.data_di_nascita }}"
+    data-prezzo="{{ cucciolo.prezzo }}"
+  >
+    <a href="{% url 'dettaglio_cucciolo' cucciolo.id %}">
+      <img
+        class="cucciolo-img"
+        src="{{ cucciolo.immagine.url }}"
+        alt="{{ cucciolo.nome }}"
+      />
+    </a>
+    <div class="cucciolo-info">
+      <p><strong>{{ cucciolo.nome }}</strong></p>
+      <p>Data di nascita: {{ cucciolo.data_di_nascita }}</p>
+      <p>Sesso: {% if cucciolo.sesso == 'maschio' %}♂{% else %}♀{% endif %}</p>
+      <p>Prezzo: {{ cucciolo.prezzo }}</p>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<!-- Aggiungi il codice JavaScript per gestire il filtraggio e l'ordinamento -->
+<script>
+  document
+    .getElementById("search-button")
+    .addEventListener("click", function () {
+      var selectedSesso = document.querySelectorAll(
+        'input[type="checkbox"][name="sesso"]:checked'
+      );
+      var selectedColore = document.querySelectorAll(
+        'input[type="checkbox"][name="colore"]:checked'
+      );
+      var cuccioliContainer = document.querySelector(".cuccioli-container");
+
+      var cuccioliList = Array.from(
+        cuccioliContainer.querySelectorAll(".cucciolo-box")
+      );
+      cuccioliList.forEach(function (cucciolo) {
+        var show = true;
+        if (
+          selectedSesso.length > 0 &&
+          !Array.from(selectedSesso).some(function (checkbox) {
+            return checkbox.value === cucciolo.dataset.sesso;
+          })
+        ) {
+          show = false;
+        }
+        if (selectedColore.length > 0) {
+          // Se "sale_pepe" è selezionato, controlla se il cucciolo è di colore "sale_pepe"
+          if (
+            selectedColore.length === 1 &&
+            selectedColore[0].value === "sale_pepe"
+          ) {
+            if (cucciolo.dataset.colore !== "sale_pepe") {
+              show = false;
+            }
+          } else {
+            // Altrimenti, controlla se il colore del cucciolo è tra quelli selezionati
+            var selectedColors = Array.from(selectedColore).map(function (
+              checkbox
+            ) {
+              return checkbox.value;
+            });
+            if (!selectedColors.includes(cucciolo.dataset.colore)) {
+              show = false;
+            }
+          }
+        }
+        cucciolo.style.display = show ? "block" : "none";
+      });
+    });
+
+  document
+    .getElementById("sorting-dropdown")
+    .addEventListener("change", function () {
+      var selectedOption = this.value;
+      var cuccioliContainer = document.querySelector(".cuccioli-container");
+      var cuccioliList = Array.from(
+        cuccioliContainer.querySelectorAll(".cucciolo-box")
+      );
+
+      if (selectedOption === "prezzo-crescente") {
+        cuccioliList.sort(function (a, b) {
+          return parseFloat(a.dataset.prezzo) - parseFloat(b.dataset.prezzo);
+        });
+      } else if (selectedOption === "prezzo-decrescente") {
+        cuccioliList.sort(function (a, b) {
+          return parseFloat(b.dataset.prezzo) - parseFloat(a.dataset.prezzo);
+        });
+      } else if (selectedOption === "data-nascita-crescente") {
+        cuccioliList.sort(function (a, b) {
+          return (
+            new Date(a.dataset.dataNascita) - new Date(b.dataset.dataNascita)
+          );
+        });
+      } else if (selectedOption === "data-nascita-decrescente") {
+        cuccioliList.sort(function (a, b) {
+          return (
+            new Date(b.dataset.dataNascita) - new Date(a.dataset.dataNascita)
+          );
+        });
+      }
+
+      cuccioliList.forEach(function (cucciolo) {
+        cuccioliContainer.appendChild(cucciolo);
+      });
+    });
+</script>
+</div>
+{% endblock %}

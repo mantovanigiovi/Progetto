@@ -1,0 +1,132 @@
+{% include 'Geo/navbar.html' %}
+{% include 'Geo/bottoni.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Allevamento Geo</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}" type="text/css">
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to bottom, #f2f2f2, #cce7ff);
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Assicura che la pagina occupi l'altezza totale */
+}
+
+header {
+    text-align: center;
+    padding: 50px 20px;
+    background-color: #004d80;
+    color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+}
+
+header p {
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+.section-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 40px 20px;
+    flex-grow: 1; /* Permette alla sezione di espandersi e riempire lo spazio disponibile */
+    margin-bottom: 80px; /* Margine extra in fondo per evitare che il footer si sovrapponga */
+}
+
+.section-card {
+    width: 250px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 250px; /* Aggiungi un'altezza fissa per evitare che il contenuto delle card si sovrapponga */
+    box-sizing: border-box; /* Include il padding nel calcolo delle dimensioni */
+}
+
+.section-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.section-card a {
+    text-decoration: none;
+    color: #004d80;
+    font-weight: bold;
+    display: block;
+    margin-top: 10px;
+}
+
+.section-card a:hover {
+    color: #007acc;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #004d80;
+    color: #fff;
+    margin-top: 30px;
+}
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Benvenuti ad Allevamento Geo</h1>
+        <p>Esplora le nostre sezioni e scopri di più sul nostro allevamento.</p>
+    </header>
+
+    <div class="section-container">
+        <div class="section-card">
+            <h3>La Razza</h3>
+            <p>Scopri gli Schnauzer.</p>
+            <a href="{% url 'razza' %}">Vai alla sezione</a>
+        </div>
+        <div class="section-card">
+            <h3>I Nostri Cuccioli</h3>
+            <p>Visualizza i nostri cuccioli disponibili al momento.</p>
+            <a href="{% url 'cuccioli_nani' %}">Vai alla sezione</a>
+        </div>
+        <div class="section-card">
+            <h3>Recensioni</h3>
+            <p>Leggi le esperienze dei nostri visitatori.</p>
+            <a href="{% url 'recensione' %}">Vai alla sezione</a>
+        </div>
+        <div class="section-card">
+            <h3>Contatti</h3>
+            <p>Mettiti in contatto con noi per maggiori informazioni.</p>
+            <a href="{% url 'contatti' %}">Vai alla sezione</a>
+        </div>
+        <div class="section-card">
+            <h3>Corsi</h3>
+            <p>Prenota il corso di addestramento più adatto a Te!</p>
+            <a href="{% url 'addestramento' %}">Corsi Addestramento</a>
+        </div>
+    </div>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li class="{% if message.tags %}{{ message.tags }}{% endif %}">{{ message|safe }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+{% block content %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,164 @@
+{% include 'Geo/navbar.html' %}
+<div class="messages">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+</div>
+{% include 'Geo/bottoni.html' %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prenotazione</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>  <!-- Aggiungi jQuery -->
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .booking-form {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 350px;
+        }
+        .booking-form h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .booking-form label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        .booking-form input, .booking-form select, .booking-form button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .booking-form button {
+            background-color: #d4b070;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .booking-form button:hover {
+            background-color: #b3935a;
+        }
+        .messages {
+            position: fixed;
+            top: 70px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            max-width: 400px;
+            padding: 5px;
+            z-index: 1000;
+        }
+
+        .alert {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 8px;
+            margin-bottom: 5px;
+            background-color: #f8d7da;
+            color: #721c24;
+            font-size: 12px;
+            line-height: 1.2;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="booking-form">
+        <h2>Prenota il Corso</h2>
+        <form method="POST">
+            {% csrf_token %}
+            <!-- Menu a discesa per selezionare il Corso -->
+            <label for="corso">Seleziona Corso</label>
+            <select id="corso" name="corso_id" required>
+                <option value="" disabled>Seleziona un corso</option>
+                {% for corso_disponibile in corsi %}
+                    <option value="{{ corso_disponibile.id }}" {% if corso_disponibile.id == corso_id %}selected{% endif %}>{{ corso_disponibile.nome }}</option>
+                {% empty %}
+                    <option value="" disabled>Nessun corso disponibile</option>
+                {% endfor %}
+            </select>
+            <!-- Nome e Cognome del Proprietario -->
+            <label for="nome">Nome Proprietario</label>
+            <input type="text" id="nome" name="nome" value="{{ request.POST.nome|default:'' }}" required>
+
+            <label for="cognome">Cognome Proprietario</label>
+            <input type="text" id="cognome" name="cognome" value="{{ request.POST.cognome|default:'' }}" required>
+
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" value="{{ request.POST.email|default:'' }}" required>
+
+            <!-- Menu a discesa per la Taglia -->
+            <label for="taglia">Taglia del Cane</label>
+            <select id="taglia" name="taglia" required>
+                <option value="" disabled {% if not request.POST.taglia %}selected{% endif %}>Seleziona una taglia</option>
+                <option value="grande" {% if request.POST.taglia == 'grande' %}selected{% endif %}>Grande</option>
+                <option value="media" {% if request.POST.taglia == 'media' %}selected{% endif %}>Media</option>
+                <option value="piccola" {% if request.POST.taglia == 'piccola' %}selected{% endif %}>Piccola</option>
+            </select>
+
+            <!-- Data Lezione -->
+            <label for="data">Data Lezione</label>
+            <input type="date" id="data" name="data" value="{{ data_selezionata }}" required>
+
+            <!-- Orario della Lezione -->
+            <label for="orario">Orario della Lezione</label>
+            <select id="orario" name="orario" required>
+                <option value="" disabled selected>Seleziona un orario</option>
+            </select>
+
+            <button type="submit">Prenota</button>
+        </form>
+    </div>
+
+    <script>
+        $(document).ready(function(){
+            // Quando la data cambia
+            $('#data').change(function(){
+                var data_selezionata = $(this).val();
+                var corso_id = $('#corso').val();
+                
+                // Fai la richiesta AJAX
+                $.ajax({
+                    url: '{% url "prenota" corso_id=corso.id %}',  // Impostare l'URL corretto
+                    data: {
+                        'data': data_selezionata,
+                    },
+                    dataType: 'json',
+                    success: function(response) {
+                        var orario_select = $('#orario');
+                        orario_select.empty();
+                        
+                        if(response.orari.length > 0) {
+                            // Aggiungi gli orari disponibili
+                            $.each(response.orari, function(index, orario) {
+                                orario_select.append('<option value="'+orario+'">'+orario+'</option>');
+                            });
+                        } else {
+                            orario_select.append('<option value="" disabled>No orari disponibili per la data selezionata.</option>');
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>

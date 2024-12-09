@@ -1,0 +1,79 @@
+{% include 'Geo/navbar.html' %}
+{% include 'Geo/bottoni.html' %}
+{% load static %}
+
+{% block content %}
+<h1>{{ corso.nome }}</h1>
+
+<div class="corso-dettagli">
+    <img class="corso-img" src="{{ corso.immagine.url }}" alt="{{ corso.nome }}">
+    
+    <div class="corso-info">
+        <p><strong>Durata:</strong> {{ corso.durata }} minuti</p>
+        <p><strong>Prezzo:</strong> €{{ corso.prezzo }}</p>
+        <a href="{% url 'prenota' corso.id %}" class="prenota-button">Prenota</a>
+    </div>
+    
+    <div class="descrizione">
+        <p><strong>Descrizione:</strong></p>
+        <p>{{ corso.descrizione }}</p>
+    </div>
+</div>
+
+<style>
+    .corso-dettagli {
+        margin: 20px;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .corso-img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+        margin-bottom: 15px;
+    }
+
+    .corso-info {
+        display: flex;
+        align-items: center; /* Allinea verticalmente gli elementi */
+        justify-content: space-between; /* Distribuisce lo spazio tra gli elementi */
+        margin-bottom: 15px; /* Spazio sotto le info del corso */
+    }
+
+    .prenota-button {
+        background-color: #d4b070;
+        color: white;
+        padding: 10px 15px;
+        text-decoration: none;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+    }
+
+    .prenota-button:hover {
+        background-color: #b3935a; /* Colore al passaggio del mouse */
+    }
+
+    .descrizione {
+        margin-top: 15px;
+        padding-left: 10px; /* Indentazione della descrizione */
+        border-left: 4px solid #d4b070; /* Bordo a sinistra per evidenziare la descrizione */
+    }
+
+    .descrizione p {
+        line-height: 1.6; /* Maggiore spaziatura tra le righe */
+        margin: 5px 0; /* Margine verticale per separare i paragrafi */
+    }
+
+    /* Spazio vuoto in fondo */
+    .content-footer {
+        margin: 50px 0; /* Spazio vuoto in fondo alla sezione */
+    }
+</style>
+
+<div class="content-footer"></div> <!-- Aggiunta per creare spazio vuoto -->
+
+{% endblock %}

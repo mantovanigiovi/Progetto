@@ -1,0 +1,305 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+header {
+    background-color: #f0f0f0;
+    text-align: center;
+    padding: 15px;
+    position: relative;
+    top: 0;
+    z-index: 1000;
+}
+/* Aggiunto per spostare il contenuto sotto il menu */
+main {
+    padding-top: 0px; /* Altezza del menu */
+}
+
+.cucciolo {
+    float: left; /* Imposta i cuccioli a sinistra */
+    width: calc(50% - 20px); /* Imposta la larghezza del cucciolo in modo che due cuccioli stiano su una riga */
+    margin-right: 20px; /* Aggiunge uno spazio tra i cuccioli */
+    margin-bottom: 20px; /* Aggiunge spazio in basso per separare le righe */
+    clear: none; /* Rimuove il clear impostato in precedenza */
+}
+
+.cucciolo-img {
+    max-width: 600px; /* Larghezza massima desiderata */
+    max-height: 450px; /* Altezza massima desiderata */
+  }
+
+  .cuccioli-container {
+    /* Aggiungi questa proprietà per consentire il wrap degli elementi */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around; /* o space-between, a seconda di come vuoi spaziare i cuccioli */
+}
+
+  .cucciolo-box {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+    width: 400px; /* Regola la larghezza del box secondo le tue preferenze */
+    background-color: #808c86; /* Colore di sfondo del box */
+}
+
+.cucciolo-img {
+    width: 300px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.cucciolo-info {
+    margin-top: 10px;
+}
+
+.search-form {
+    position:absolute; /* Cambio da absolute a relative */
+    margin-top: 40px; /* Altezza della navbar + margine desiderato */
+    top: 70px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.search-form input[type="text"],
+.search-form button {
+    /* Aggiustare lo stile del campo di ricerca e del pulsante secondo le proprie esigenze */
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    margin: 5px;
+}
+
+.search-form input[type="text"] {
+    width: 200px; /* Larghezza del campo di ricerca */
+}
+
+.search-form button {
+    background-color: #333; /* Colore di sfondo del pulsante */
+    color: #fff; /* Colore del testo */
+    cursor: pointer;
+}
+
+.search-form button:hover {
+    background-color: #555; /* Cambia il colore di sfondo al passaggio del mouse */
+}
+
+h1 {
+    margin-top: 70px; /* Aggiungi un margine superiore per spostare il titolo sotto la navbar */
+    margin-bottom: 20px;
+}
+
+/* RAZZA */
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin: 20px;
+    margin: 50px 20px 20px;
+}
+
+.text {
+    width: 60%; /* Imposta la larghezza del testo a sinistra */
+    text-align: left; /* Allinea il testo a sinistra */
+}
+
+.image {
+    width: 20%; /* Imposta la larghezza dell'immagine a destra */
+    text-align: right; /* Allinea l'immagine a destra */
+    margin-top: 20px;
+}
+
+img {
+    max-width: 100%; /* Assicura che l'immagine non superi la larghezza del suo contenitore */
+}
+
+.nano {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px;
+    align-items: flex-start;
+    flex-direction: row;
+}
+
+.testo_nano {
+    width: 60%; /* Imposta la larghezza del testo a sinistra */
+    text-align: left; /* Allinea il testo a sinistra */
+}
+
+.immagine_nano {
+    width: 35%; /* Imposta la larghezza dell'immagine a destra */
+    text-align: right; /* Allinea l'immagine a destra */
+    margin-top: 30px;
+}
+
+img {
+    max-width: 100%; /* Assicura che l'immagine non superi la larghezza del suo contenitore */
+}
+
+.additional-section_n {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin: 20px;
+}
+
+.additional-section_n .caratt_nano {
+    width: 90%;
+    text-align:right;
+    margin-top: -10px;
+    margin-right: 5px;
+}
+
+.medio{
+    display: flex;
+    justify-content: space-between;
+    margin: 20px;
+    align-items: flex-start;
+    flex-direction: row;
+}
+
+.testo_medio {
+    width: 60%; /* Imposta la larghezza del testo a sinistra */
+    text-align: left; /* Allinea il testo a sinistra */
+}
+
+.immagine_medio {
+    width: 35%; /* Imposta la larghezza dell'immagine a destra */
+    text-align: right; /* Allinea l'immagine a destra */
+    margin-top: 50px;
+}
+
+img {
+    max-width: 100%; /* Assicura che l'immagine non superi la larghezza del suo contenitore */
+}
+
+.additional-section_m {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin: 20px;
+}
+
+.additional-section_m .caratt_medio {
+    width: 90%;
+    text-align:right;
+    margin-top: -10px;
+    margin-right: 5px;
+}
+
+.gigante {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px;
+    align-items: flex-start;
+    flex-direction: row;
+}
+
+.testo_gigante {
+    width: 60%; /* Imposta la larghezza del testo a sinistra */
+    text-align: left; /* Allinea il testo a sinistra */
+}
+
+.immagine_gigante {
+    width: 35%; /* Imposta la larghezza dell'immagine a destra */
+    text-align: right; /* Allinea l'immagine a destra */
+    margin-top: 40px;
+}
+
+img {
+    max-width: 100%; /* Assicura che l'immagine non superi la larghezza del suo contenitore */
+}
+
+.additional-section_g {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin: 20px 0;
+}
+
+.additional-section_g .caratt_gigante {
+    width: 90%;
+    text-align:right;
+    margin-top: -10px;
+    margin-right: 5px;
+}
+
+.bottone_nani a {
+    color: white;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
+            padding: 10px 20px;
+            text-decoration: none;
+            margin-left: 10px;
+            margin-top: -100px;
+}
+
+.bottone_standard a {
+    color: white;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
+            padding: 10px 20px;
+            text-decoration: none;
+            margin-left: 10px;
+}
+
+
+/* Stili per il bottone gigante */
+.bottone_giganti a {
+    color: white;
+            margin-top: 40px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
+            padding: 10px 20px;
+            text-decoration: none;
+            margin-left: 20px;
+            
+}
+
+.corsi-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around; /* Puoi usare space-between per avere spazi più uniformi */
+    width: 100%;
+    margin: 0 auto;
+}
+
+.corso-box {
+    border: 10px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    width: 100px; /* Regola la larghezza del box per renderlo più piccolo */
+    background-color: #808c86; /* Colore di sfondo del box */
+}
+
+.corso-img {
+    width: 100%; /* Imposta l'immagine per adattarsi alla larghezza del box */
+    max-width: 300px; /* Mantieni la larghezza massima per le immagini */
+    height: auto; /* Mantiene il rapporto d'aspetto */
+    border-radius: 5px;
+    margin-bottom: 10px; /* Aggiunge un po' di spazio sotto l'immagine */
+}
+
+.corso-info {
+    margin-top: 10px;
+}
+
+/* Modifiche alle righe */
+.corso {
+    float: left; /* Imposta i corsi a sinistra */
+    width: calc(50% - 20px); /* Due corsi su una riga con margini */
+    margin-right: 20px; /* Aggiunge uno spazio tra i corsi */
+    margin-bottom: 20px; /* Aggiunge spazio in basso per separare le righe */
+}

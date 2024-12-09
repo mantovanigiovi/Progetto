@@ -1,0 +1,237 @@
+{% include 'Geo/navbar.html' %}
+{% include 'Geo/bottoni.html' %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <style>
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7fa;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            min-height: 100vh;
+            margin-bottom: 50px;
+        }
+
+        h1 {
+            color: #f3b847;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .prenotazioni-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+        }
+
+        .prenotazione-card {
+            background: linear-gradient(135deg, #ffffff, #f8f8f8);
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            width: 320px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .prenotazione-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            border-color: #f3b847;
+        }
+
+        .prenotazione-card h3 {
+            color: #333;
+            font-size: 1.4em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .prenotazione-card p {
+            color: #666;
+            margin: 8px 0;
+            font-size: 14px;
+        }
+
+        .prenotazione-card strong {
+            color: #333;
+        }
+
+        .no-prenotazione-msg {
+            text-align: center;
+            font-size: 1.3em;
+            color: #f3b847;
+            margin-bottom: 20px;
+        }
+
+        .search-course-btn-container {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .search-course-btn {
+            background-color: #f3b847;
+            color: white;
+            padding: 16px 30px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: inline-block;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-course-btn:hover {
+            background-color: #f0a834;
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .search-course-btn:active {
+            transform: scale(1.02);
+        }
+
+        .annullato-msg {
+            color: #e74c3c !important;
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        .delete-btn {
+            background-color: #e74c3c;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 14px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .delete-btn:hover {
+            background-color: #c0392b;
+        }
+    .alert-success {
+        background-color: #4CAF50; 
+        color: white;
+        padding: 20px;
+        margin: 10px 0;
+        border-radius: 5px;
+        font-weight: bold;
+        text-align: center;
+        font-size: 15px;
+        transition: all 0.3s ease;
+    }
+
+    .alert-success:hover {
+        background-color: #45a049; 
+    }
+
+    .alert-warning {
+        background-color: #ff9800;
+        color: white;
+        padding: 20px;
+        margin: 10px 0;
+        border-radius: 5px;
+    }
+
+    .alert-danger {
+        background-color: #45a049;
+        color: white;
+        padding: 20px;
+        margin: 10px 0;
+        border-radius: 5px;
+    }
+    
+
+    </style>
+</head>
+<body>
+    <h1>Le Mie Prenotazioni</h1>
+    <p>Ciao, {{ user.username }}!</p>
+    {% if messages %}
+        <div>
+            {% for message in messages %}
+                <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <form method="get" action="{% url 'mie_prenotazioni' %}">
+        <div style="text-align: center; margin-bottom: 20px;">
+            <label for="ordine">Ordina per:</label>
+            <select name="ordine" id="ordine" onchange="this.form.submit()">
+                <option value="asc" {% if ordine == 'asc' %}selected{% endif %}>Data più vicina</option>
+                <option value="desc" {% if ordine == 'desc' %}selected{% endif %}>Data più lontana</option>
+                <option value="prezzo_asc" {% if ordine == 'prezzo_asc' %}selected{% endif %}>Prezzo crescente</option>
+            <option value="prezzo_desc" {% if ordine == 'prezzo_desc' %}selected{% endif %}>Prezzo decrescente</option>
+            </select>
+        </div>
+        <label for="solo_attive" class="checkbox-label">
+            <input type="checkbox" name="solo_attive" id="solo_attive" onchange="this.form.submit()" {% if solo_attive %}checked{% endif %}> Mostra solo prenotazioni attive </label>
+    </form>
+
+    <div class="prenotazioni-container">
+        {% if prenotazioni %}
+            {% for prenotazione in prenotazioni %}
+                <div class="prenotazione-card">
+                    {% if prenotazione.is_annullata %}
+                        <p class="annullato-msg">Questa lezione è stata annullata</p>
+                        <form method="POST" action="{% url 'rimuovi_notifica' prenotazione.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="remove-notifica-btn" title="Rimuovi notifica">Rimuovi Notifica</button>
+                        </form>
+                    {% endif %}
+    
+                    <h3>{{ prenotazione.corso.nome }}</h3>
+                    <p><strong>Corso:</strong> {{ prenotazione.corso.nome }}</p>
+                    <p><strong>Tipo di corso:</strong> {{ prenotazione.corso.tipo }}</p>
+                    <p><strong>Data:</strong> {{ prenotazione.data_lezione }}</p>
+                    <p><strong>Orario:</strong> {{ prenotazione.orario_lezione }}</p>
+                    <p><strong>Taglia:</strong> {{ prenotazione.taglia }}</p>
+                    
+                    {% if prenotazione.notifica_set.all %}
+                        <div class="alert-info">
+                            <p class="annullato-msg">Questa lezione è stata annullata.</p>
+                            <p>Motivo:</p>
+                            {% for notifica in prenotazione.notifica_set.all %}
+                                <p>{{ notifica.messaggio }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+    
+                    <a href="{% url 'elimina_prenotazione' prenotazione.id %}" class="delete-btn" onclick="return confirm('Sei sicuro di voler eliminare questa prenotazione?')">Elimina Prenotazione</a>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="no-prenotazione-msg">Nessuna prenotazione trovata.</p>
+            <div class="search-course-btn-container">
+                <a href="{% url 'addestramento' %}" class="search-course-btn">Cerca un corso ora!</a>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>

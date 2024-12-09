@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="it">
+{% block content %}
+    <style>
+        /* Stili per posizionare i pulsanti Accedi e Registrati nel footer */
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #333; /* Cambia colore di sfondo a tuo piacimento */
+            color: white; /* Colore del testo */
+            padding: 2px;
+            text-align: center;
+        }
+
+        footer .login-register-buttons {
+            margin-top: 10px; /* Spazio sopra i pulsanti */
+        }
+
+        footer .login-register-buttons a {
+            color: white;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
+            padding: 10px 20px;
+            text-decoration: none;
+            margin-left: 10px;
+            display: inline-block;
+        }
+
+        footer .login-register-buttons a:hover {
+            background-color: rgba(0, 0, 0, 0.7); 
+        }
+
+        footer .login-register-buttons p {
+            margin-bottom: 10px; /* Spazio sotto il messaggio */
+            font-size: 14px; /* Riduci la dimensione del testo */
+        }
+    </style>
+</head>
+<body>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-info" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+</body>
+<footer>
+    <div class="login-register-buttons">
+        {% if request.user.is_authenticated %}
+            <span>Benvenuto/a, {{ user.username }}</span>
+            <span><a href="{% url 'logout' %}">Logout</a></span>
+        {% else %}
+            <p>Accedi o Registrati per scoprire i vantaggi che il sito ha da offrire!!</p>
+            <a href="{% url 'login' %}" class="button">Accedi</a>
+            <a href="{% url 'register' %}" class="button">Registrati</a>
+        {% endif %}
+    </div>
+</footer>
+{% endblock %}
+</html>

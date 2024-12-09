@@ -1,0 +1,145 @@
+{% include 'Geo/navbar.html' %}
+{% include 'Geo/bottoni.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lascia una Recensione</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        /* Stili per la valutazione a stelle */
+        .star-rating {
+            display: flex;
+            gap: 5px;
+            flex-direction: row-reverse;
+        }
+        .star-rating input[type="radio"] {
+            display: none;
+        }
+        .star-rating label {
+            font-size: 1.5rem;
+            color: lightgray;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .star-rating input[type="radio"]:checked ~ label,
+        .star-rating input[type="radio"]:checked ~ label ~ label,
+        .star-rating label:hover,
+        .star-rating label:hover ~ label {
+            color: gold;
+        }
+        .review-form {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .review-form textarea {
+            width: 100%;
+            height: 150px;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            resize: vertical;
+            font-size: 16px;
+        }
+        .reviews-section {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            border-top: 1px solid #ddd;
+        }
+        .reviews-section h3 {
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+        .review {
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+            margin-bottom: 10px;
+        }
+        .review p {
+            margin: 5px 0;
+        }
+        .review-photo {
+            max-width: 100%;
+            height: auto;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+        .star-display {
+            display: inline-flex;
+            gap: 2px;
+            font-size: 1.5rem;
+            vertical-align: middle;
+        }
+        .voto-stelle {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="review-form">
+        <h2>Lascia una Recensione</h2>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <label for="voto">Valutazione:</label>
+            <div class="star-rating">
+                <input type="radio" id="star5" name="voto" value="5" required><label for="star5">&#9733;</label>
+                <input type="radio" id="star4" name="voto" value="4"><label for="star4">&#9733;</label>
+                <input type="radio" id="star3" name="voto" value="3"><label for="star3">&#9733;</label>
+                <input type="radio" id="star2" name="voto" value="2"><label for="star2">&#9733;</label>
+                <input type="radio" id="star1" name="voto" value="1"><label for="star1">&#9733;</label>
+            </div>
+
+            <label for="testo">Commento:</label>
+            <textarea id="testo" name="testo" required></textarea>
+
+            <label for="foto">Foto (opzionale):</label>
+            <input type="file" id="foto" name="foto">
+
+            <button type="submit">Invia Recensione</button>
+        </form>
+    </div>
+
+    <div class="reviews-section">
+        <h3>Recensioni Precedenti</h3>
+        {% if recensioni %}
+            {% for recensione in recensioni %}
+                <div class="review">
+                    <p><strong>Utente:</strong> {{ recensione.utente.username }}</p>
+                    <p class="voto-stelle">
+                        <strong>Voto:</strong>
+                        <div class="star-display">
+                            {% for i in "12345" %}
+                                {% if forloop.counter <= recensione.voto %}
+                                    <span style="color: gold;">&#9733;</span>
+                                {% else %}
+                                    <span style="color: lightgray;">&#9733;</span>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </p>
+                    <p><strong>Commento:</strong> {{ recensione.testo }}</p>
+                    {% if recensione.foto %}
+                        <img src="{{ recensione.foto.url }}" alt="Foto recensione" class="review-photo">
+                    {% endif %}
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>Nessuna recensione disponibile.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

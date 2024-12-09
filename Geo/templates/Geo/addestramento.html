@@ -1,0 +1,123 @@
+{% include 'Geo/navbar.html' %}
+{% include 'Geo/bottoni.html' %}
+{% load static %}
+{% block content %}
+<div style="padding-bottom: 50px;"></div>
+<h1>Addestramento Disponibile</h1>
+
+<!-- Aggiungi il menu a discesa per l'ordinamento con spaziatura -->
+<div style="margin-bottom: 20px">
+  <label for="sorting-dropdown">Ordina per:</label>
+  <select id="sorting-dropdown" style="margin-left: 10px">
+    <option value="prezzo-crescente">Prezzo (crescente)</option>
+    <option value="prezzo-decrescente">Prezzo (decrescente)</option>
+    </select>
+</div>
+
+<!-- Aggiungi i checkbox per il filtraggio con spaziatura -->
+<div class="filter-bar" style="margin-bottom: 20px">
+  <label style="margin-right: 10px">Tipo:</label>
+  <input type="checkbox" id="filtro-agility" name="tipo" value="agility" />
+  <label for="filtro-agility" style="margin-right: 10px">Agility</label>
+  <input type="checkbox" id="filtro-obedience" name="tipo" value="obedience" />
+  <label for="filtro-obedience" style="margin-right: 10px">Obedience</label>
+</div>
+
+<!-- Aggiungi il pulsante "Cerca" -->
+<button id="search-button" style="margin-bottom: 20px">Cerca</button>
+
+<div class="corsi-container">
+    {% for corso in corsi_addestramento %}
+    <div class="corso-box"
+         data-tipo="{{ corso.tipo }}"
+         data-prezzo="{{ corso.prezzo }}"
+         data-durata="{{ corso.durata }}">
+      <!-- Aggiungi un link per il dettaglio del corso -->
+      <a href="{% url 'dettaglio_corso' corso.id %}">
+        <img class="corso-img" src="{{ corso.immagine.url }}" alt="{{ corso.nome }}">
+        <div class="corso-info">
+          <p><strong>{{ corso.nome }}</strong></p>
+          <p>Durata: {{ corso.durata }} minuti</p>
+          <p>Prezzo: €{{ corso.prezzo }}</p>
+        </div>
+      </a>
+
+      <!-- Mostra il bottone "Prenota" solo se l'utente è autenticato -->
+      {% if user.is_authenticated %}
+      <form action="{% url 'prenota' corso.id %}" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="corso_id" value="{{ corso.id }}">
+        <button type="submit" class="prenota-button" style="background-color: #d4b070; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer;">
+          Prenota
+        </button>
+      </form>
+      {% else %}
+<p style="color: red;">Accedi per prenotare un corso.</p>
+{% endif %}
+    </div>
+    {% empty %}
+    <p>Nessun Corso Disponibile.</p>
+    {% endfor %}
+</div>
+
+<!-- Aggiungi il codice JavaScript per gestire il filtraggio e l'ordinamento -->
+<script>
+  document
+    .getElementById("search-button")
+    .addEventListener("click", function () {
+      var selectedTipo = document.querySelectorAll(
+        'input[type="checkbox"][name="tipo"]:checked'
+      );
+      var corsiContainer = document.querySelector(".corsi-container");
+
+      var corsiList = Array.from(
+        corsiContainer.querySelectorAll(".corso-box")
+      );
+      corsiList.forEach(function (corso) {
+        var show = true;
+        if (
+          selectedTipo.length > 0 &&
+          !Array.from(selectedTipo).some(function (checkbox) {
+            return checkbox.value === corso.dataset.tipo;
+          })
+        ) {
+          show = false;
+        }
+        corso.style.display = show ? "block" : "none";
+      });
+    });
+
+  document
+    .getElementById("sorting-dropdown")
+    .addEventListener("change", function () {
+      var selectedOption = this.value;
+      var corsiContainer = document.querySelector(".corsi-container");
+      var corsiList = Array.from(
+        corsiContainer.querySelectorAll(".corso-box")
+      );
+
+      if (selectedOption === "prezzo-crescente") {
+        corsiList.sort(function (a, b) {
+          return parseFloat(a.dataset.prezzo) - parseFloat(b.dataset.prezzo);
+        });
+      } else if (selectedOption === "prezzo-decrescente") {
+        corsiList.sort(function (a, b) {
+          return parseFloat(b.dataset.prezzo) - parseFloat(a.dataset.prezzo);
+        });
+      } else if (selectedOption === "durata-crescente") {
+        corsiList.sort(function (a, b) {
+          return parseFloat(a.dataset.durata) - parseFloat(b.dataset.durata);
+        });
+      } else if (selectedOption === "durata-decrescente") {
+        corsiList.sort(function (a, b) {
+          return parseFloat(b.dataset.durata) - parseFloat(a.dataset.durata);
+        });
+      }
+
+      corsiList.forEach(function (corso) {
+        corsiContainer.appendChild(corso);
+      });
+    });
+</script>
+</div>
+{% endblock %}
