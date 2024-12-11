@@ -19,9 +19,9 @@ urlpatterns = [
     path('corso/<int:corso_id>/', views.dettaglio_corso, name='dettaglio_corso'),
     path('navbar/', navbar, name='navbar'),
     path('prenota/<int:corso_id>/', views.prenota, name='prenota'),
-    path('recensione/', views.recensione, name='recensione'),  # Usa il nome corretto
+    path('recensione/', views.recensione, name='recensione'),
     path('annulla-prenotazione/<int:prenotazione_id>/', views.annulla_prenotazione, name='annulla_prenotazione'),
-    path('elimina-prenotazione/<int:prenotazione_id>/', views.elimina_prenotazione, name='elimina_prenotazione'),  # Assicurati che il nome corrisponda
+    path('elimina-prenotazione/<int:prenotazione_id>/', views.elimina_prenotazione, name='elimina_prenotazione'),
     path('mie_prenotazioni/', views.mie_prenotazioni, name='mie_prenotazioni'),
-    path('not-logged-in/', views.not_logged_in, name='not_logged_in'),  # Cambia lambda con una vista
+    path('not-logged-in/', views.not_logged_in, name='not_logged_in'),
 ]

@@ -1,15 +1,15 @@
 {% include 'Geo/navbar.html' %}
 {% include 'Geo/bottoni.html' %}
-
+{% load static %}
 {% block content %}>
     <!-- Form di ricerca -->
     <form method="get" action="{% url 'search_results' %}" class="search-form">
         <div class="input-group mb-3">
-            <input type="text" name="query" class="form-control" placeholder="Cerca un cucciolo..." value="{{ query|default:'' }}" aria-label="Cerca un cucciolo">
+            <input type="text" name="query" class="form-control" placeholder="Cerca un cucciolo..." value="{{ query }}" aria-label="Cerca un cucciolo">
             <button class="btn btn-primary" type="submit">Cerca</button>
         </div>
     </form>
-
+    
     <!-- Risultati della ricerca -->
     <section class="search-results">
         <h1>Risultati della ricerca</h1>
@@ -41,13 +41,11 @@
 </div>
 
 <style>
-    /* Stile per restringere le immagini */
     .product-image {
         height: 200px;
         object-fit: cover; 
     }
 
-    /* Stile delle card */
     .product-item {
         border: 1px solid #ddd;
         border-radius: 5px;
@@ -55,12 +53,12 @@
         transition: transform 0.2s, box-shadow 0.2s;
         margin-bottom: 80px;
       }
+
     .product-item:hover {
         transform: translateY(-5px);
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     }
 
-    /* Bottone principale */
     .btn-primary {
         background-color: #007BFF;
         border: none;
@@ -68,5 +66,6 @@
     .btn-primary:hover {
         background-color: #0056b3;
     }
+
 </style>
 {% endblock %}

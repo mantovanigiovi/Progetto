@@ -15,12 +15,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prenotazione</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>  <!-- Aggiungi jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <style>
+        
         body {
             font-family: Arial, sans-serif;
         }
+
         .booking-form {
             max-width: 500px;
             margin: 50px auto;
@@ -30,15 +32,18 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             margin-bottom: 350px;
         }
+
         .booking-form h2 {
             text-align: center;
             margin-bottom: 20px;
         }
+
         .booking-form label {
             display: block;
             margin-bottom: 10px;
             font-weight: bold;
         }
+
         .booking-form input, .booking-form select, .booking-form button {
             width: 100%;
             padding: 10px;
@@ -46,15 +51,18 @@
             border-radius: 5px;
             border: 1px solid #ccc;
         }
+
         .booking-form button {
             background-color: #d4b070;
             color: white;
             border: none;
             cursor: pointer;
         }
+
         .booking-form button:hover {
             background-color: #b3935a;
         }
+
         .messages {
             position: fixed;
             top: 70px;
@@ -77,6 +85,7 @@
             line-height: 1.2;
             text-align: center;
         }
+
     </style>
 </head>
 <body>
@@ -130,14 +139,13 @@
 
     <script>
         $(document).ready(function(){
-            // Quando la data cambia
             $('#data').change(function(){
                 var data_selezionata = $(this).val();
                 var corso_id = $('#corso').val();
                 
-                // Fai la richiesta AJAX
+                //Richiesta ajax
                 $.ajax({
-                    url: '{% url "prenota" corso_id=corso.id %}',  // Impostare l'URL corretto
+                    url: '{% url "prenota" corso_id=corso.id %}',
                     data: {
                         'data': data_selezionata,
                     },
@@ -147,7 +155,6 @@
                         orario_select.empty();
                         
                         if(response.orari.length > 0) {
-                            // Aggiungi gli orari disponibili
                             $.each(response.orari, function(index, orario) {
                                 orario_select.append('<option value="'+orario+'">'+orario+'</option>');
                             });

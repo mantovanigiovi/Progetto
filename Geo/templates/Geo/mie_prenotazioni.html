@@ -164,7 +164,6 @@
         border-radius: 5px;
     }
     
-
     </style>
 </head>
 <body>
@@ -205,14 +204,13 @@
                             <button type="submit" class="remove-notifica-btn" title="Rimuovi notifica">Rimuovi Notifica</button>
                         </form>
                     {% endif %}
-    
+                        <!-- Descrizione prenotazione -->
                     <h3>{{ prenotazione.corso.nome }}</h3>
-                    <p><strong>Corso:</strong> {{ prenotazione.corso.nome }}</p>
                     <p><strong>Tipo di corso:</strong> {{ prenotazione.corso.tipo }}</p>
                     <p><strong>Data:</strong> {{ prenotazione.data_lezione }}</p>
                     <p><strong>Orario:</strong> {{ prenotazione.orario_lezione }}</p>
                     <p><strong>Taglia:</strong> {{ prenotazione.taglia }}</p>
-                    
+                    <!-- In caso la lezione sia annullata scrive il motivo -->
                     {% if prenotazione.notifica_set.all %}
                         <div class="alert-info">
                             <p class="annullato-msg">Questa lezione è stata annullata.</p>
@@ -223,12 +221,14 @@
                         </div>
                     {% endif %}
     
+                    <!-- Eliminazione prenotazione -->
                     <a href="{% url 'elimina_prenotazione' prenotazione.id %}" class="delete-btn" onclick="return confirm('Sei sicuro di voler eliminare questa prenotazione?')">Elimina Prenotazione</a>
                 </div>
             {% endfor %}
         {% else %}
             <p class="no-prenotazione-msg">Nessuna prenotazione trovata.</p>
             <div class="search-course-btn-container">
+                <!-- Se non ci sono prenotazioni visualizza bottone con reindirizzamento a lista dei corsi-->
                 <a href="{% url 'addestramento' %}" class="search-course-btn">Cerca un corso ora!</a>
             </div>
         {% endif %}

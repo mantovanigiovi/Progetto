@@ -5,6 +5,7 @@
 {% block content %}
 <h1>{{ corso.nome }}</h1>
 
+<!-- Info generali + foto, prezzo, durata -->
 <div class="corso-dettagli">
     <img class="corso-img" src="{{ corso.immagine.url }}" alt="{{ corso.nome }}">
     
@@ -21,6 +22,7 @@
 </div>
 
 <style>
+
     .corso-dettagli {
         margin: 20px;
         padding: 20px;
@@ -38,9 +40,9 @@
 
     .corso-info {
         display: flex;
-        align-items: center; /* Allinea verticalmente gli elementi */
-        justify-content: space-between; /* Distribuisce lo spazio tra gli elementi */
-        margin-bottom: 15px; /* Spazio sotto le info del corso */
+        align-items: center; 
+        justify-content: space-between; 
+        margin-bottom: 15px;
     }
 
     .prenota-button {
@@ -54,26 +56,27 @@
     }
 
     .prenota-button:hover {
-        background-color: #b3935a; /* Colore al passaggio del mouse */
+        background-color: #b3935a;
     }
 
     .descrizione {
         margin-top: 15px;
-        padding-left: 10px; /* Indentazione della descrizione */
-        border-left: 4px solid #d4b070; /* Bordo a sinistra per evidenziare la descrizione */
+        padding-left: 10px; 
+        border-left: 4px solid #d4b070; 
     }
 
     .descrizione p {
-        line-height: 1.6; /* Maggiore spaziatura tra le righe */
-        margin: 5px 0; /* Margine verticale per separare i paragrafi */
+        line-height: 1.6; 
+        margin: 5px 0; 
     }
 
-    /* Spazio vuoto in fondo */
+    
     .content-footer {
-        margin: 50px 0; /* Spazio vuoto in fondo alla sezione */
+        margin: 50px 0; 
     }
+    
 </style>
-
-<div class="content-footer"></div> <!-- Aggiunta per creare spazio vuoto -->
+<!-- aggiunto spazio sul fondo (questione estetica) -->
+<div class="content-footer"></div> 
 
 {% endblock %}

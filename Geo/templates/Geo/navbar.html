@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="{% static 'style.css' %}" type="text/css" />
     <style>
+      
       body {
         font-family: Arial, sans-serif;
         margin: 0;
@@ -107,8 +108,6 @@
         right: 10px;
         background-color: grey;
         padding: 10px;
-        
- 
       }
 
       .nav-links a {
@@ -136,14 +135,14 @@
       @media (max-width: 1080px) {
         .navigazione-menu {
           position: fixed;
-          top: 50px; /* Al di sotto della navbar */
+          top: 50px;
           right: 0;
           width: 250px;
           height: calc(100% - 50px);
           background-color: blue;
           padding: 15px;
           box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
-          z-index: 1003; /* Assicurati che il menu sia sopra altri elementi */
+          z-index: 1003;
           transform: translateX(100%);
           transition: transform 0.3s ease;
         }
@@ -153,25 +152,15 @@
           transform: translateX(0);
         }
 
-        .navigazione-item {
-          margin: 16px 0;
-          color: white;
-        }
       }
 
     </style>
   </head>
   <body>
-    <header>
-    </header>
 
+<!-- Navbar con sottomenù -->
     <nav>
-      <a href="/"
-        ><img
-          src="{% static 'logo/logoS.PNG' %}"
-          alt="Logo dell'allevamento Schnauzer"
-          class="logo"
-      /></a>
+      <a href="/"><img src="{% static 'logo/logoS.PNG' %}" alt="Logo dell'allevamento Schnauzer" class="logo"/></a>
       <ul class="options">
         <li><a href="/">Home</a></li>
         <li>
@@ -189,6 +178,7 @@
         <li><a href="{% url 'contatti' %}">Contatti</a></li>
       </ul>
 
+      <!-- Hamburger menù (visualizzabile solo se autenticati) -->
       {% if user.is_authenticated %}
   <div class="hamburger" id="hamburger">
     <div class="bar"></div>
@@ -200,11 +190,10 @@
   <a href="{% url 'recensione' %}">Lascia una recensione</a>
 </div>
 {% endif %}
-
     </nav>
 
+<!-- Visualizzazione hamburger menù-->
     <script>
-      //document.addEventListener("DOMContentLoaded", () => {
         const hamburger = document.getElementById("hamburger");
         const navLinks = document.getElementById("nav-links");
 
@@ -224,7 +213,6 @@
           hamburger.classList.remove("active");
           navLinks.classList.remove("active");
         });
-     // });
     </script>
   </body>
 </html>

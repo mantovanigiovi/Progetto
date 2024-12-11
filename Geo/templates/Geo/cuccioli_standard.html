@@ -10,7 +10,7 @@
 </form>
 
 
-<!-- Aggiungi il menu a discesa per l'ordinamento con spaziatura -->
+<!-- Ordinamento -->
 <div style="margin-bottom: 20px">
   <label for="sorting-dropdown">Ordina per:</label>
   <select id="sorting-dropdown" style="margin-left: 10px">
@@ -23,7 +23,7 @@
   </select>
 </div>
 
-<!-- Aggiungi i checkbox per il filtraggio con spaziatura -->
+<!-- Checkbox -->
 <div class="filter-bar" style="margin-bottom: 20px">
   <label style="margin-right: 10px">Sesso:</label>
   <input type="checkbox" id="filtro-maschio" name="sesso" value="maschio" />
@@ -38,7 +38,6 @@
   <label for="filtro-sale-pepe" style="margin-right: 10px">Sale e Pepe</label>
 </div>
 
-<!-- Aggiungi il pulsante "Cerca" -->
 <button id="search-button" style="margin-bottom: 20px">Cerca</button>
 
 <div class="cuccioli-container">
@@ -67,7 +66,6 @@
   {% endfor %}
 </div>
 
-<!-- Aggiungi il codice JavaScript per gestire il filtraggio e l'ordinamento -->
 <script>
   document
     .getElementById("search-button")

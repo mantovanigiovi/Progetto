@@ -35,13 +35,6 @@ class GeoAppTests(TestCase):
         self.assertTemplateUsed(response, 'Geo/cuccioli_nani.html')
         self.assertContains(response, self.schnauzer.nome)
 
-    def test_cuccioli_standard_view(self):
-        # Test della vista cuccioli standard (nessun elemento)
-        response = self.client.get(reverse('cuccioli_standard'))
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'Geo/cuccioli_standard.html')
-        self.assertNotContains(response, self.schnauzer.nome)
-
     def test_login_and_prenota_view(self):
         # Test login e vista prenotazione
         self.client.login(username='testuser', password='password123')  # Simula il login

@@ -10,7 +10,7 @@ from .models import Addestramento
 from .models import Prenotazione, Notifica
 from .models import Recensione
 from .forms import CreateUserForm
-from django.db.models import Q  # Importa Q per query complesse
+from django.db.models import Q
 
 from django.contrib import messages
 
@@ -95,16 +95,15 @@ def logoutUser(request):
     return redirect('home')
 
 def search_results(request):
-    query = request.GET.get('query', '').strip()  # Recupera e pulisce la query
+    query = request.GET.get('q')
     if query:  # Se la query non è vuota, filtra i risultati
         results = Schnauzer.objects.filter(
             Q(nome__icontains=query) | Q(descrizione__icontains=query)
         )
     else:
-        results = Schnauzer.objects.none()  # Mostra tutti i risultati se la query è vuota
+        results = Schnauzer.objects.all()  # Mostra tutti i risultati se la query è vuota
 
     return render(request, 'Geo/search_results.html', {'results': results, 'query': query})
-
 
 def dettaglio_cucciolo(request, cucciolo_id):
     cucciolo = get_object_or_404(Schnauzer, pk=cucciolo_id)
@@ -115,7 +114,7 @@ def prenota(request, corso_id):
     corso = get_object_or_404(Addestramento, id=corso_id)
     corsi = Addestramento.objects.all()
 
-    # Lista degli orari disponibili di default
+    # Orari disponibili di default
     orari_disponibili = ["10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00","19:00"]
     orari_prenotati = []
 
@@ -139,7 +138,7 @@ def prenota(request, corso_id):
                 'cognome': cognome,
                 'email': email,
                 'taglia': taglia,
-                'data_lezione': data_lezione,  # Passiamo i dati immessi
+                'data_lezione': data_lezione,
                 'orario_lezione': orario_lezione,
             })
 
@@ -209,9 +208,8 @@ def mie_prenotazioni(request):
     return render(request, 'Geo/mie_prenotazioni.html', {
         'prenotazioni': prenotazioni,
         'ordine': ordine,
-        'solo_attive': solo_attive,  # Per mantenere il valore del checkbox nel template
+        'solo_attive': solo_attive,
     })
-
 
 @login_required(login_url='/not-logged-in/')
 def recensione(request):
@@ -232,7 +230,6 @@ def recensione(request):
         except Exception as e:
             messages.error(request, f'Errore nell\'invio della recensione: {str(e)}')
 
-    # Recupera tutte le recensioni per visualizzarle sotto il form
     recensioni = Recensione.objects.all().order_by('-id')  # Ordinamento discendente per le recensioni più recenti
 
     return render(request, 'Geo/recensione.html', {'recensioni': recensioni})
@@ -251,7 +248,6 @@ def annulla_prenotazione(prenotazione_id):
         messaggio=messaggio
     )
     notifica.save()
-
 
 @login_required
 def elimina_prenotazione(request, prenotazione_id):

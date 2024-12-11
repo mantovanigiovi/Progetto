@@ -1,8 +1,11 @@
 # Allevamento Geo
 
 ## Descrizione generale
-Schnauzer Geo è un sito web sviluppato con Django, pensato per gli appassionati di Schnauzer. Offre una piattaforma interattiva che permette agli utenti di scoprire i cuccioli disponibili, suddivisi per taglia (nano, standard, gigante), e approfondire le caratteristiche della razza. Previa registrazione, gli utenti possono prenotare corsi di addestramento per i loro cani, scegliendo comodamente data e orario in base alla disponibilità.
-Grazie al sistema di gestione delle prenotazioni, gli utenti registrati possono controllare e annullare le proprie richieste in qualsiasi momento. È inoltre possibile lasciare recensioni sui servizi ricevuti, contribuendo così a creare una community sulla condivisione di esperienze.
+Schnauzer Geo è un sito web sviluppato con Django, pensato per gli appassionati di Schnauzer. 
+Offre una piattaforma interattiva che permette agli utenti di scoprire i cuccioli disponibili, suddivisi per taglia (nano, standard, gigante), e approfondire le caratteristiche della razza.
+Previa registrazione, gli utenti possono prenotare corsi di addestramento per i loro cani, scegliendo comodamente data e orario in base alla disponibilità.
+Grazie al sistema di gestione delle prenotazioni, gli utenti registrati possono controllare e annullare le proprie richieste in qualsiasi momento.
+È inoltre possibile lasciare recensioni sui servizi ricevuti, contribuendo così a creare una community sulla condivisione di esperienze.
 
 ## Requisiti
 - Python 3.13.0
@@ -16,4 +19,5 @@ Grazie al sistema di gestione delle prenotazioni, gli utenti registrati possono 
 
 
 3. Avvio del server
- python manage.py runserver
+source venv/bin/activate
+python manage.py runserver

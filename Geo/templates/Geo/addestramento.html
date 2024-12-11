@@ -5,7 +5,7 @@
 <div style="padding-bottom: 50px;"></div>
 <h1>Addestramento Disponibile</h1>
 
-<!-- Aggiungi il menu a discesa per l'ordinamento con spaziatura -->
+<!-- Ordinamento -->
 <div style="margin-bottom: 20px">
   <label for="sorting-dropdown">Ordina per:</label>
   <select id="sorting-dropdown" style="margin-left: 10px">
@@ -14,7 +14,7 @@
     </select>
 </div>
 
-<!-- Aggiungi i checkbox per il filtraggio con spaziatura -->
+<!-- Checkbox -->
 <div class="filter-bar" style="margin-bottom: 20px">
   <label style="margin-right: 10px">Tipo:</label>
   <input type="checkbox" id="filtro-agility" name="tipo" value="agility" />
@@ -23,7 +23,6 @@
   <label for="filtro-obedience" style="margin-right: 10px">Obedience</label>
 </div>
 
-<!-- Aggiungi il pulsante "Cerca" -->
 <button id="search-button" style="margin-bottom: 20px">Cerca</button>
 
 <div class="corsi-container">
@@ -32,7 +31,7 @@
          data-tipo="{{ corso.tipo }}"
          data-prezzo="{{ corso.prezzo }}"
          data-durata="{{ corso.durata }}">
-      <!-- Aggiungi un link per il dettaglio del corso -->
+      <!-- Dettaglio del corso -->
       <a href="{% url 'dettaglio_corso' corso.id %}">
         <img class="corso-img" src="{{ corso.immagine.url }}" alt="{{ corso.nome }}">
         <div class="corso-info">
@@ -42,7 +41,7 @@
         </div>
       </a>
 
-      <!-- Mostra il bottone "Prenota" solo se l'utente è autenticato -->
+      <!-- Vedo il tasto "prenota" solo se sono autenticato -->
       {% if user.is_authenticated %}
       <form action="{% url 'prenota' corso.id %}" method="POST">
         {% csrf_token %}
@@ -52,7 +51,7 @@
         </button>
       </form>
       {% else %}
-<p style="color: red;">Accedi per prenotare un corso.</p>
+<p style="color: red;">Accedi per prenotare un corso.</p> 
 {% endif %}
     </div>
     {% empty %}
@@ -60,7 +59,6 @@
     {% endfor %}
 </div>
 
-<!-- Aggiungi il codice JavaScript per gestire il filtraggio e l'ordinamento -->
 <script>
   document
     .getElementById("search-button")
