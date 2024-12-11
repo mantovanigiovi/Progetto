@@ -12,12 +12,13 @@ Grazie al sistema di gestione delle prenotazioni, gli utenti registrati possono 
 
 ## Installazione
 1. Clonazione della repository
- git clone https://github.com/mantovanigiovi/Allevamento.git
+ git clone https://github.com/mantovanigiovi/SchnauzerGeo.git
 
 2. Navigazione nella directory del progetto
- cd Desktop/Allevamento
+ cd Desktop/SchnauzerGeo
 
 
-3. Avvio del server
+3. Attivazione ambiente virtuale
 source venv/bin/activate
+4. Avvio del server
 python manage.py runserver
